@@ -1,22 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Embedded Content</title>
+  <meta charset="UTF-8">
+  <title>FinTrack – Financial Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1A1A1A">
+  <link rel="manifest" href="manifest.json">
+  <!-- Optional: Add app icon for PWA -->
+  <link rel="icon" type="image/png" href="icon.png">
+  <meta name="description" content="Modern minimalist financial tracker.">
+  <style>
+    html, body {
+      height: 100%; margin: 0; padding: 0; background: #1A1A1A;
+    }
+    iframe {
+      position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      border: none;
+    }
+  </style>
 </head>
 <body>
 
-<iframe src="https://script.google.com/macros/s/AKfycbwl8TW5fjByPxOkOvU9-LLUSpf7xFf740Xn_YOwQe4wKM6bqs-GFJCuhK7ht_Uz65mAtg/exec"
-  width="100%"
-  height="100%"
-  allowfullscreen="true"
-  style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+<iframe 
+  src="https://script.google.com/macros/s/AKfycbwl8TW5fjByPxOkOvU9-LLUSpf7xFf740Xn_YOwQe4wKM6bqs-GFJCuhK7ht_Uz65mAtg/exec"
+  allowfullscreen></iframe>
 
 <script>
-window.onload = function() {
-  document.querySelector('iframe').requestFullscreen().catch(err => {
-    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
-  });
-};
+  // Attempt fullscreen on click for better UX (user gesture required)
+  document.querySelector('iframe').onclick = function() {
+    this.requestFullscreen && this.requestFullscreen().catch(()=>{});
+  };
+
+  // Register service worker if desired for offline/PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(reg) {
+          console.log('ServiceWorker registration successful:', reg);
+        }).catch(function(err) {
+          console.log('ServiceWorker registration failed:', err);
+        });
+    });
+  }
 </script>
 
 </body>
